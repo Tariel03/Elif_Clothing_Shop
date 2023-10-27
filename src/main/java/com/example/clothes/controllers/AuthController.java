@@ -33,6 +33,10 @@ public class AuthController {
 	
 	@PostMapping("/register")
 	public ResponseEntity<String> register(@RequestBody RegisterRequest registerDto, final HttpServletRequest servletRequest) throws MessagingException, UnsupportedEncodingException {
+		if(!registerDto.getPassword().equals(registerDto.getPasswordConfirmation())){
+			return ResponseEntity.badRequest().body("Passwords do not match, please retype");
+		}
+
 		if(userService.existsByEmail(registerDto.getEmail())){
 			return ResponseEntity.badRequest().body("This email address is already used");
 		}
@@ -55,10 +59,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/refresh-token")
-	public ResponseEntity<Void> refreshToken(
-			HttpServletRequest request,
-			HttpServletResponse response
-	) throws IOException {
+	public ResponseEntity<Void> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		authService.refreshToken(request, response);
 		return ResponseEntity.ok().build();
 	}
