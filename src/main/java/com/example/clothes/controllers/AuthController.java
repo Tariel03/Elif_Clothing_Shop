@@ -8,6 +8,7 @@ import com.example.clothes.entities.User;
 import com.example.clothes.repositories.ConfirmationTokenRepository;
 import com.example.clothes.services.AuthenticationService;
 import com.example.clothes.services.UserService;
+import com.example.clothes.utils.EmailUtility;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,8 +39,7 @@ public class AuthController {
 
 		ConfirmationToken confirmationToken=authService.register(registerDto);
 
-
-
+		EmailUtility.sendVerificationEmail(confirmationToken,javaMailSender,applicationUrl(servletRequest));
 		
 		return ResponseEntity.ok().body("User registered successfully!"
 				+ "We have sent an email with a confirmation link to your email address. In order to complete the sign-up process, please click the confirmation link.\r\n"
