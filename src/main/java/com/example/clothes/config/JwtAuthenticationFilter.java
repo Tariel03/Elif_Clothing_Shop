@@ -1,5 +1,7 @@
 package com.example.clothes.config;
 
+import com.example.clothes.repositories.AccessTokenRepository;
+import com.example.clothes.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private final JwtService jwtService;
   private final UserDetailsService userDetailsService;
-  private final TokenRepository tokenRepository;
+  private final AccessTokenRepository tokenRepository;
 
   @Override
   protected void doFilterInternal(
