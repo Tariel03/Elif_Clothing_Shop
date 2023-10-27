@@ -15,7 +15,7 @@ public class ConfirmationToken {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long tokenId;
+	private Long tokenId;
 	private String confirmationToken;
 	
 	@Temporal(TemporalType.TIMESTAMP)
