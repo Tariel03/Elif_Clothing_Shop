@@ -26,8 +26,8 @@ public class Stock {
     @JoinColumn(name = "size_id")
     Size size;
     @ManyToOne
-    @JoinColumn(name = "cloth_id")
-    Cloth cloth;
+    @JoinColumn(name = "clothes_id")
+    Clothes clothes;
     @Column(name = "quantity")
     @Min(value = 0, message = "The quantity of the product on stock can't be less 0")
     int quantity;
