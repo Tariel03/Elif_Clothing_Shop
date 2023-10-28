@@ -44,7 +44,7 @@ public class Cloth {
     Image image;
     @PrePersist
     public void prePersist() {
-        if (creationDate == null) {
+        if (creationDate == null || creationTime == null) {
             creationDate = LocalDate.now();
             creationTime = LocalTime.now();
         }
