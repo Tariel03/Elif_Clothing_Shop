@@ -4,6 +4,7 @@ import com.example.clothes.dto.request.AuthenticationRequest;
 import com.example.clothes.dto.request.RegisterRequest;
 import com.example.clothes.dto.response.AuthenticationResponse;
 import com.example.clothes.entities.ConfirmationToken;
+import com.example.clothes.entities.PasswordResetToken;
 import com.example.clothes.entities.User;
 import com.example.clothes.repositories.ConfirmationTokenRepository;
 import com.example.clothes.services.AuthenticationService;
@@ -13,14 +14,20 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Optional;
+import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
@@ -76,6 +83,8 @@ public class AuthController {
 		}
 		return new ResponseEntity<>("The link is invalid or broken!", HttpStatus.BAD_REQUEST);
 	}
+
+
 
 
 	private String applicationUrl(HttpServletRequest request) {
