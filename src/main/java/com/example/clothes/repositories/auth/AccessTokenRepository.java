@@ -1,6 +1,6 @@
-package com.example.clothes.repositories;
+package com.example.clothes.repositories.auth;
 
-import com.example.clothes.entities.AccessToken;
+import com.example.clothes.entities.auth.AccessToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

@@ -11,7 +11,9 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "color")
+@Table(name = "color", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "color")
+})
 public class Color {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -11,8 +11,11 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "type")
-public class Type {
+@Table(name = "category",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "type")
+        })
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;

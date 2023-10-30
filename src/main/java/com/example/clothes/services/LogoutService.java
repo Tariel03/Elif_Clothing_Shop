@@ -1,6 +1,6 @@
 package com.example.clothes.services;
 
-import com.example.clothes.repositories.AccessTokenRepository;
+import com.example.clothes.repositories.auth.AccessTokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

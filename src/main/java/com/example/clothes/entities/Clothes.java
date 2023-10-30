@@ -42,6 +42,9 @@ public class Clothes {
     @JoinColumn(name = "image_id")
     @ManyToOne
     Image image;
+    @JoinColumn(name = "category_id")
+    @ManyToOne
+    Category  category;
     @PrePersist
     public void prePersist() {
         if (creationDate == null || creationTime == null) {

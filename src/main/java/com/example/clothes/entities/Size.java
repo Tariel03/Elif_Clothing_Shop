@@ -11,7 +11,10 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "size")
+@Table(name = "size",uniqueConstraints = {
+        @UniqueConstraint(columnNames = "size")
+})
+
 public class Size {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

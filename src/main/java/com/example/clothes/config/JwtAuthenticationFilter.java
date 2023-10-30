@@ -1,6 +1,6 @@
 package com.example.clothes.config;
 
-import com.example.clothes.repositories.AccessTokenRepository;
+import com.example.clothes.repositories.auth.AccessTokenRepository;
 import com.example.clothes.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

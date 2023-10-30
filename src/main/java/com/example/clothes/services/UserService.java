@@ -1,16 +1,13 @@
 package com.example.clothes.services;
 
 import com.example.clothes.entities.User;
-import com.example.clothes.entities.AccessToken;
+import com.example.clothes.entities.auth.AccessToken;
 import com.example.clothes.enums.TokenType;
-import com.example.clothes.repositories.AccessTokenRepository;
-import com.example.clothes.repositories.ConfirmationTokenRepository;
+import com.example.clothes.repositories.auth.AccessTokenRepository;
 import com.example.clothes.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

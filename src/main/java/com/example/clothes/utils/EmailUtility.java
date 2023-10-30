@@ -1,6 +1,6 @@
 package com.example.clothes.utils;
 
-import com.example.clothes.entities.ConfirmationToken;
+import com.example.clothes.entities.auth.ConfirmationToken;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.experimental.UtilityClass;
