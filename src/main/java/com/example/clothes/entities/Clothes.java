@@ -1,6 +1,7 @@
 package com.example.clothes.entities;
 
 import com.example.clothes.enums.Gender;
+import com.example.clothes.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,6 +31,8 @@ public class Clothes {
     String fabric;
     @Column(name = "onStock")
     boolean onStock;
+    @Enumerated(EnumType.STRING)
+    Status status;
     @Column(name = "creationTime")
     LocalTime creationTime;
     @Column(name = "creationDate")

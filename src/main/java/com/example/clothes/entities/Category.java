@@ -1,5 +1,6 @@
 package com.example.clothes.entities;
 
+import com.example.clothes.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,5 +23,14 @@ public class Category {
     @Column(name = "type" )
     @NotBlank(message = "Type of the cloth can't be blank")
     String type;
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Category parentCategory;
+    @Enumerated(EnumType.STRING)
+    Status status;
+    @PrePersist
+    public void prePersist() {
+        status = Status.Active;
+    }
 
 }

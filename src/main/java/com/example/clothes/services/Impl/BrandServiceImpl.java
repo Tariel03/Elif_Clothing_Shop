@@ -1,6 +1,7 @@
 package com.example.clothes.services.Impl;
 
 import com.example.clothes.entities.Brand;
+import com.example.clothes.enums.Status;
 import com.example.clothes.repositories.BrandRepository;
 import com.example.clothes.services.Repo.BrandService;
 import lombok.AllArgsConstructor;
@@ -35,11 +36,23 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    public List<Brand> findActiveBrands() {
+        return brandRepository.findByStatus(Status.Active);
+    }
+
+    @Override
     public Brand findByBrand(String brand) {
         Optional<Brand> optionalBrand = brandRepository.findByBrand(brand);
         if(optionalBrand.isPresent()){
             return optionalBrand.get();
         }
         throw new RuntimeException("No element by this name");
+    }
+
+    @Override
+    public void changeStatusToDeleted(Long id) {
+        Brand brand = findById(id);
+        brand.setStatus(Status.Deleted);
+        brandRepository.save(brand);
     }
 }

@@ -1,33 +1,50 @@
 package com.example.clothes.services.Impl;
 
-import com.example.clothes.dto.request.ClothDto;
+import com.example.clothes.dto.response.ClothDto;
+import com.example.clothes.entities.Brand;
 import com.example.clothes.entities.Clothes;
 import com.example.clothes.enums.Gender;
+import com.example.clothes.mappers.ClothesMapper;
 import com.example.clothes.repositories.CategoryRepository;
 import com.example.clothes.repositories.ClothesRepository;
 import com.example.clothes.services.Repo.CategoryService;
 import com.example.clothes.services.Repo.ClothService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ClothesServiceImpl implements ClothService {
-    ClothesRepository clothesRepository;
-    CategoryService categoryService;
+    private  final ClothesRepository clothesRepository;
+    private final CategoryService categoryService;
+    private final BrandServiceImpl brandService;
+    private final ClothesMapper clothesMapper;
     @Override
     public List<Clothes> findByGender(Gender gender) {
         return clothesRepository.findByGender(gender);
     }
 
+    @Override
+    public List<Clothes> findByBrand(String brand) {
+        Brand brand1 = brandService.findByBrand(brand);
+        return clothesRepository.findByBrand(brand1);
+    }
 
     @Override
-    public void save(ClothDto dto) {
-
+    public void save(ClothDto clothDto) {
+        Clothes clothes = clothesMapper.toClothes(clothDto);
+        clothesRepository.save(clothes);
     }
+
+
+//    @Override
+//    public void save(ClothDto dto) {
+//
+//    }
 
     @Override
     public Clothes findById(Long id) throws RuntimeException {

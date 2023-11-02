@@ -1,5 +1,6 @@
 package com.example.clothes.entities;
 
+import com.example.clothes.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,4 +22,10 @@ public class Color {
     @Column(name = "color", nullable = false)
     @NotBlank(message = "Name of the color can't be blank")
     String color;
+    @Enumerated(EnumType.STRING)
+    Status status;
+    @PrePersist
+    public void prePersist() {
+        status = Status.Active;
+    }
 }
