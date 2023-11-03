@@ -30,7 +30,7 @@ public class Category {
     Status status;
     @PrePersist
     public void prePersist() {
-        status = Status.Active;
+        status = Status.ACTIVE;
     }
 
 }
