@@ -44,7 +44,11 @@ public class AuthenticationService {
             .build();
     User savedUser = repository.save(user);
 
-    ConfirmationToken confirmationToken = new ConfirmationToken(savedUser, UUID.randomUUID().toString());
+    ConfirmationToken confirmationToken=ConfirmationToken.builder()
+            .user(savedUser)
+            .confirmationToken(UUID.randomUUID().toString())
+            .build();
+
     return confirmationTokenRepository.save(confirmationToken);
   }
 

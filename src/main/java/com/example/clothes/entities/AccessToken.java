@@ -2,30 +2,32 @@ package com.example.clothes.entities;
 
 import com.example.clothes.enums.TokenType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
+@Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccessToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    Long id;
 
-    @Column(unique = true)
-    public String token;
+    @Column(name="token", unique = true)
+    String token;
 
+    @Column(name="token_type")
     @Enumerated(EnumType.STRING)
-    public TokenType tokenType = TokenType.BEARER;
+    TokenType tokenType = TokenType.BEARER;
 
-    public boolean revoked;
+    @Column(name="revoked")
+    boolean revoked;
 
-    public boolean expired;
+    @Column(name="expired")
+    boolean expired;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

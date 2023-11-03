@@ -65,7 +65,7 @@ public class EmailUtility {
 
         content = content.replace("[[name]]", passwordResetToken.getUser().getFirstname());
 
-        String resetURL = applicationUrl + "/api/v1/user/reset-password?token=" + passwordResetToken.getToken();
+        String resetURL = applicationUrl + "/api/v1/auth/reset-password?token=" + passwordResetToken.getToken();
         content = content.replace("[[URL]]", resetURL);
 
         helper.setText(content, true);
