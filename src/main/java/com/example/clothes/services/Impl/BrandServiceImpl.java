@@ -37,7 +37,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public List<Brand> findActiveBrands() {
-        return brandRepository.findByStatus(Status.Active);
+        return brandRepository.findByStatus(Status.ACTIVE);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public void changeStatusToDeleted(Long id) {
         Brand brand = findById(id);
-        brand.setStatus(Status.Deleted);
+        brand.setStatus(Status.DELETED);
         brandRepository.save(brand);
     }
 }

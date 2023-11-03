@@ -1,20 +1,33 @@
 package com.example.clothes.services;
 
+import com.example.clothes.dto.request.UpdatePasswordRequest;
+import com.example.clothes.dto.request.UpdateUserInfoRequest;
+import com.example.clothes.dto.response.UserInfoResponse;
+import com.example.clothes.entities.PasswordResetToken;
 import com.example.clothes.entities.User;
 import com.example.clothes.entities.auth.AccessToken;
+import com.example.clothes.enums.Status;
 import com.example.clothes.enums.TokenType;
-import com.example.clothes.repositories.auth.AccessTokenRepository;
+import com.example.clothes.mappers.UserMapper;
 import com.example.clothes.repositories.UserRepository;
+import com.example.clothes.repositories.auth.AccessTokenRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final AccessTokenRepository tokenRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final PasswordResetTokenService passwordResetTokenService;
+    private final UserMapper userMapper;
 
 
     public User add(User user) {
@@ -54,6 +67,52 @@ public class UserService {
     }
 
     public void save(User user) {
+        userRepository.save(user);
+    }
+
+    public void resetPassword(User theUser, String newPassword) {
+        theUser.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(theUser);
+    }
+
+    public boolean validatePasswordResetToken(String token) {
+        return passwordResetTokenService.validatePasswordResetToken(token);
+    }
+
+    public User findUserByPasswordToken(String token) {
+        return passwordResetTokenService.findUserByPasswordToken(token).get();
+    }
+
+    public PasswordResetToken createPasswordResetTokenForUser(User user, String passwordResetToken) {
+        return passwordResetTokenService.createPasswordResetTokenForUser(user, passwordResetToken);
+    }
+
+    public void updatePassword(User user, UpdatePasswordRequest request) {
+        if(!passwordEncoder.matches(request.getOldPassword(), user.getPassword())){
+            throw new IllegalArgumentException("Old password was entered incorrectly");
+        }else{
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            userRepository.save(user);
+        }
+
+    }
+
+
+    public void updateUserInfo(User user, UpdateUserInfoRequest request) {
+        user.setFirstname(request.getFirstname());
+        user.setLastname(request.getLastname());
+        user.setPhoneNumber(request.getPhoneNumber());
+
+        userRepository.save(user);
+    }
+
+    public UserInfoResponse getUserInfo(User user) {
+        return userMapper.userToUserInfoResponse(user);
+    }
+
+    public void deleteUser(User user) {
+        user.setStatus(Status.DELETED);
+        user.setDeletedDate(LocalDateTime.now());
         userRepository.save(user);
     }
 }
