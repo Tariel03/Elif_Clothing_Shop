@@ -25,4 +25,5 @@ public class ApiError {
         this.timestamp = timestamp;
         this.message = message;
     }
+
 }

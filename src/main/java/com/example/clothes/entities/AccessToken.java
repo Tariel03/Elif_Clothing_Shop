@@ -2,10 +2,8 @@ package com.example.clothes.entities;
 
 import com.example.clothes.enums.TokenType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Data
 @Builder

@@ -1,37 +1,32 @@
 package com.example.clothes.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
 
-@Entity()
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ConfirmationToken {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long tokenId;
-	private String confirmationToken;
-	
+	Long id;
+
+	@Column(name="confirmation_token")
+	String confirmationToken;
+
+	@Column(name="created_date")
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdDate;
+	Date createdDate;
 	
 	@OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
 	@JoinColumn(nullable = false, name = "user_id")
-	private User user;
-	
-	public ConfirmationToken(User user) {
-		this.user = user;
-	}
-
-	public ConfirmationToken(User user, String generatedString) {
-		this.user = user;
-		this.confirmationToken = generatedString;
-	}
+	User user;
 	
 }

@@ -1,17 +1,25 @@
 package com.example.clothes.services;
 
+import com.example.clothes.dto.request.UpdatePasswordRequest;
+import com.example.clothes.dto.request.UpdateUserInfoRequest;
+import com.example.clothes.dto.response.UserInfoResponse;
 import com.example.clothes.entities.PasswordResetToken;
 import com.example.clothes.entities.User;
 import com.example.clothes.entities.AccessToken;
+import com.example.clothes.enums.Status;
 import com.example.clothes.enums.TokenType;
+import com.example.clothes.mappers.UserMapper;
 import com.example.clothes.repositories.AccessTokenRepository;
 import com.example.clothes.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -19,6 +27,7 @@ public class UserService {
     private final AccessTokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final PasswordResetTokenService passwordResetTokenService;
+    private final UserMapper userMapper;
 
 
     public User add(User user) {
@@ -76,5 +85,34 @@ public class UserService {
 
     public PasswordResetToken createPasswordResetTokenForUser(User user, String passwordResetToken) {
         return passwordResetTokenService.createPasswordResetTokenForUser(user, passwordResetToken);
+    }
+
+    public void updatePassword(User user, UpdatePasswordRequest request) {
+        if(!passwordEncoder.matches(request.getOldPassword(), user.getPassword())){
+            throw new IllegalArgumentException("Old password was entered incorrectly");
+        }else{
+            user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            userRepository.save(user);
+        }
+
+    }
+
+
+    public void updateUserInfo(User user, UpdateUserInfoRequest request) {
+        user.setFirstname(request.getFirstname());
+        user.setLastname(request.getLastname());
+        user.setPhoneNumber(request.getPhoneNumber());
+
+        userRepository.save(user);
+    }
+
+    public UserInfoResponse getUserInfo(User user) {
+        return userMapper.userToUserInfoResponse(user);
+    }
+
+    public void deleteUser(User user) {
+        user.setStatus(Status.DELETED);
+        user.setDeletedDate(LocalDateTime.now());
+        userRepository.save(user);
     }
 }
