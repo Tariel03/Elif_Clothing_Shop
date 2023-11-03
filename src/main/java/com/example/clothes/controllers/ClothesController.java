@@ -1,5 +1,6 @@
 package com.example.clothes.controllers;
 
+import com.example.clothes.dto.response.ClothDto;
 import com.example.clothes.entities.Brand;
 import com.example.clothes.entities.Clothes;
 import com.example.clothes.enums.Gender;
@@ -21,11 +22,11 @@ public class ClothesController {
         return clothesService.findAll();
     }
     @GetMapping("/gender")
-    List<Clothes>findByGender(@RequestParam("gender")Gender gender){
+    List<ClothDto>findByGender(@RequestParam("gender")Gender gender){
         return clothesService.findByGender(gender);
     }
     @GetMapping("/brand")
-    List<Clothes>findByBrand(@RequestParam("brand") String brand){
+    List<ClothDto>findByBrand(@RequestParam("brand") String brand){
         return clothesService.findByBrand(brand);
     }
 
@@ -33,6 +34,8 @@ public class ClothesController {
     List<Clothes>filtered(@RequestParam Long category_id, @RequestParam double maxPrice, @RequestParam double minPrice){
         return clothesService.filteredElements(category_id,maxPrice, minPrice);
     }
+
+
 
 
 }

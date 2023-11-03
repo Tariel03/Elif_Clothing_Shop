@@ -24,14 +24,14 @@ public class ClothesServiceImpl implements ClothService {
     private final BrandServiceImpl brandService;
     private final ClothesMapper clothesMapper;
     @Override
-    public List<Clothes> findByGender(Gender gender) {
-        return clothesRepository.findByGender(gender);
+    public List<ClothDto> findByGender(Gender gender) {
+        return clothesMapper.toListDto(clothesRepository.findByGender(gender));
     }
 
     @Override
-    public List<Clothes> findByBrand(String brand) {
+    public List<ClothDto> findByBrand(String brand) {
         Brand brand1 = brandService.findByBrand(brand);
-        return clothesRepository.findByBrand(brand1);
+        return clothesMapper.toListDto(clothesRepository.findByBrand(brand1));
     }
 
     @Override

@@ -8,8 +8,8 @@ import com.example.clothes.enums.Gender;
 import java.util.List;
 
 public interface ClothService {
-    List<Clothes> findByGender(Gender gender);
-    List<Clothes> findByBrand(String brand);
+    List<ClothDto> findByGender(Gender gender);
+    List<ClothDto> findByBrand(String brand);
     void save(ClothDto clothDto);
 
     Clothes findById(Long id) throws RuntimeException;

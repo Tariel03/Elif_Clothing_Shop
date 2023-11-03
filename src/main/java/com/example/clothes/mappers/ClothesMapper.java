@@ -7,9 +7,12 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper
 public interface ClothesMapper {
     ClothesMapper Instance = Mappers.getMapper(ClothesMapper.class);
     ClothDto toClothDto(Clothes cloth);
     Clothes toClothes(ClothDto clothDto);
+    List<ClothDto> toListDto(List<Clothes> list);
 }

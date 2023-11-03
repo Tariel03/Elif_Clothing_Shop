@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import javax.validation.constraints.Min;
+import java.util.List;
 
 @Entity
 @Builder
@@ -31,6 +32,8 @@ public class Stock {
     @Column(name = "quantity")
     @Min(value = 0, message = "The quantity of the product on stock can't be less 0")
     int quantity;
+    @OneToMany(cascade = CascadeType.ALL)
+    List<Image> images;
 
 
 }
