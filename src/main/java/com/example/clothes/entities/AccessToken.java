@@ -5,29 +5,25 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@Entity
 public class AccessToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    public Long id;
 
-    @Column(name="token", unique = true)
-    String token;
+    @Column(unique = true)
+    public String token;
 
-    @Column(name="token_type")
     @Enumerated(EnumType.STRING)
-    TokenType tokenType = TokenType.BEARER;
+    public TokenType tokenType = TokenType.BEARER;
 
-    @Column(name="revoked")
-    boolean revoked;
+    public boolean revoked;
 
-    @Column(name="expired")
-    boolean expired;
+    public boolean expired;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

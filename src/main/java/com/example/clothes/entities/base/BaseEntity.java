@@ -2,21 +2,18 @@ package com.example.clothes.entities.base;
 
 import com.example.clothes.utils.DateUtil;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
 
 @MappedSuperclass
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@SuperBuilder
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BaseEntity {
 
