@@ -4,6 +4,7 @@ import com.example.clothes.utils.DateUtil;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BaseEntity {
 

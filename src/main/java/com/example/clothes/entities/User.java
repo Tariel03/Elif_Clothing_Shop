@@ -7,6 +7,7 @@ import com.example.clothes.utils.DateUtil;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,36 +25,13 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "users",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "email")
         })
-public class User implements UserDetails {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-
-    @Column(name = "created_date")
-    LocalDateTime createdDate;
-
-    @Column(name = "updated_date")
-    LocalDateTime updatedDate;
-
-    @Column(name = "deleted_date")
-    LocalDateTime deletedDate;
-
-    @PrePersist
-    public void prePersist() {
-        this.createdDate = LocalDateTime.now(DateUtil.getZoneId());
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedDate = LocalDateTime.now(DateUtil.getZoneId());
-    }
+public class User extends BaseEntity implements UserDetails {
 
     @Column(name="firstname")
     @NotBlank(message = "Firstname may not be blank")

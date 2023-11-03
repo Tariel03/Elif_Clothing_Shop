@@ -12,11 +12,14 @@ import com.example.clothes.mappers.UserMapper;
 import com.example.clothes.repositories.AccessTokenRepository;
 import com.example.clothes.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -85,14 +88,15 @@ public class UserService {
     }
 
     public void updatePassword(User user, UpdatePasswordRequest request) {
-        String encodedOldPassword=passwordEncoder.encode(request.getOldPassword());
-        if(!encodedOldPassword.equals(user.getPassword())){
-            throw new RuntimeException("Old password was entered incorrectly");
+        if(!passwordEncoder.matches(request.getOldPassword(), user.getPassword())){
+            throw new IllegalArgumentException("Old password was entered incorrectly");
         }else{
             user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            userRepository.save(user);
         }
 
     }
+
 
     public void updateUserInfo(User user, UpdateUserInfoRequest request) {
         user.setFirstname(request.getFirstname());
@@ -108,6 +112,7 @@ public class UserService {
 
     public void deleteUser(User user) {
         user.setStatus(Status.DELETED);
+        user.setDeletedDate(LocalDateTime.now());
         userRepository.save(user);
     }
 }

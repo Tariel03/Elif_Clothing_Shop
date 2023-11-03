@@ -28,7 +28,11 @@ public class UserController {
             return ResponseEntity.badRequest().body("Passwords don't match");
         }
 
-        userService.updatePassword(user, request);
+        try {
+            userService.updatePassword(user, request);
+        }catch (IllegalArgumentException ex){
+            return ResponseEntity.badRequest().body("Old password was entered incorrectly");
+        }
 
         return ResponseEntity.ok("Password changed");
     }

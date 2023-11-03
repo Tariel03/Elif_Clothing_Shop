@@ -26,10 +26,4 @@ public class ApiError {
         this.message = message;
     }
 
-    public ApiError(int statusCode, LocalDateTime timestamp, String message, List<String> errors) {
-        this.statusCode = statusCode;
-        this.timestamp = timestamp;
-        this.message = message;
-        this.errors=errors;
-    }
 }
