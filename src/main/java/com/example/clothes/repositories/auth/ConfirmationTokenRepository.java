@@ -1,9 +1,8 @@
-package com.example.clothes.repositories;
+package com.example.clothes.repositories.auth;
 
-import com.example.clothes.entities.ConfirmationToken;
+import com.example.clothes.entities.auth.ConfirmationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

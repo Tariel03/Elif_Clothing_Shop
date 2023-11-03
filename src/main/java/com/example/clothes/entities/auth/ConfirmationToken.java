@@ -1,5 +1,6 @@
-package com.example.clothes.entities;
+package com.example.clothes.entities.auth;
 
+import com.example.clothes.entities.User;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
