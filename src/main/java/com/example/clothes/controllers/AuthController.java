@@ -18,8 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -84,7 +82,40 @@ public class AuthController {
 		return new ResponseEntity<>("The link is invalid or broken!", HttpStatus.BAD_REQUEST);
 	}
 
+	@PostMapping("/password-reset-request")
+	public ResponseEntity<String> resetPasswordRequest(@RequestParam(name="email")String email, final HttpServletRequest servletRequest)
+			throws MessagingException, UnsupportedEncodingException {
 
+		Optional<User> user = userService.findByEmail(email);
+		if (user.isPresent()) {
+			PasswordResetToken passwordResetToken=userService.createPasswordResetTokenForUser(user.get(), UUID.randomUUID().toString());
+			EmailUtility.sendPasswordResetCode(passwordResetToken,javaMailSender, applicationUrl(servletRequest));
+			return ResponseEntity.ok().body("We have sent a password reset link to "+email+". Click the link within 10 minutes or you'll need to request a new one. If you don't see the email, check your spam folder");
+		}else{
+			return ResponseEntity.badRequest().body(String.format("User with email '%s' was not found",email));
+		}
+
+	}
+
+	@PostMapping("/reset-password")
+	public ResponseEntity<String> resetPassword(@RequestParam(name="new_password") String newPassword,
+												@RequestParam(name="confirm_new_password") String confirmNewPassword,
+												@RequestParam("token") String token){
+		if(!newPassword.equals(confirmNewPassword)){
+			return ResponseEntity.badRequest().body("Passwords do not match, please retype");
+		}
+
+		boolean tokenVerificationResult = userService.validatePasswordResetToken(token);
+		if (!tokenVerificationResult) {
+			return ResponseEntity.badRequest().body("Invalid token password reset token");
+		}
+		Optional<User> theUser = Optional.ofNullable(userService.findUserByPasswordToken(token));
+		if (theUser.isPresent()) {
+			userService.resetPassword(theUser.get(), newPassword);
+			return ResponseEntity.ok().body("Password has been reset successfully");
+		}
+		return ResponseEntity.badRequest().body("Invalid token password reset token");
+	}
 
 
 	private String applicationUrl(HttpServletRequest request) {
