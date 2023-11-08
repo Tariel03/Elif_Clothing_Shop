@@ -8,5 +8,7 @@ public interface ColorService {
     void save(String color);
     Color findById(Long id);
     List<Color> findAll();
+    void changeStatusToDeleted(Long id);
+
     Color findByColor(String color);
 }

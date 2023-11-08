@@ -1,6 +1,7 @@
 package com.example.clothes.services.Impl;
 
-import com.example.clothes.dto.response.ClothDto;
+import com.example.clothes.dto.request.ClothRequest;
+import com.example.clothes.dto.response.ClothResponse;
 import com.example.clothes.entities.Brand;
 import com.example.clothes.entities.Clothes;
 import com.example.clothes.enums.Gender;
@@ -11,6 +12,9 @@ import com.example.clothes.services.Repo.CategoryService;
 import com.example.clothes.services.Repo.ClothService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,19 +28,24 @@ public class ClothesServiceImpl implements ClothService {
     private final BrandServiceImpl brandService;
     private final ClothesMapper clothesMapper;
     @Override
-    public List<ClothDto> findByGender(Gender gender) {
+    public List<ClothResponse> findByGender(Gender gender) {
         return clothesMapper.toListDto(clothesRepository.findByGender(gender));
     }
 
     @Override
-    public List<ClothDto> findByBrand(String brand) {
+    public List<ClothResponse> findByBrand(String brand) {
         Brand brand1 = brandService.findByBrand(brand);
         return clothesMapper.toListDto(clothesRepository.findByBrand(brand1));
     }
 
     @Override
-    public void save(ClothDto clothDto) {
-        Clothes clothes = clothesMapper.toClothes(clothDto);
+    public void save(ClothRequest request) {
+        Clothes clothes = clothesMapper.toClothes(request);
+        clothesRepository.save(clothes);
+    }
+
+    @Override
+    public void save(Clothes clothes) {
         clothesRepository.save(clothes);
     }
 
@@ -53,13 +62,13 @@ public class ClothesServiceImpl implements ClothService {
             return optionalClothes.get();
         }
         throw  new RuntimeException("No element by this id");
-
     }
 
     @Override
-    public List<Clothes> findAll() {
-        return clothesRepository.findAll();
+    public Page<ClothResponse> findAll(Pageable pageable) {
+        return clothesMapper.toPageDto(clothesRepository.findAll(pageable));
     }
+
 
     @Override
     public List<Clothes> filteredElements(Long category_id, double max_price, double min_price) {

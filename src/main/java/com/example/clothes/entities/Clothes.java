@@ -8,6 +8,7 @@ import lombok.*;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Builder
@@ -42,9 +43,10 @@ public class Clothes {
     @JoinColumn(name = "brand_id")
     @ManyToOne
     Brand brand;
-    @JoinColumn(name = "image_id")
-    @ManyToOne
-    Image image;
+//    @JoinColumn(name = "image_id")
+//    @ManyToOne
+    @OneToMany(mappedBy = "clothes", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Image> images;
     @JoinColumn(name = "category_id")
     @ManyToOne
     Category  category;

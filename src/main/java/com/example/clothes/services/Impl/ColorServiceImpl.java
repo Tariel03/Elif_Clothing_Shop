@@ -2,6 +2,7 @@ package com.example.clothes.services.Impl;
 
 import com.example.clothes.entities.Brand;
 import com.example.clothes.entities.Color;
+import com.example.clothes.enums.Status;
 import com.example.clothes.repositories.ColorRepository;
 import com.example.clothes.services.Repo.ColorService;
 import lombok.AllArgsConstructor;
@@ -20,9 +21,9 @@ public class ColorServiceImpl implements ColorService {
 
     @Override
     public Color findById(Long id) {
-        Optional<Color> optionalBrand = colorRepository.findById(id);
-        if(optionalBrand.isPresent()){
-            return optionalBrand.get();
+        Optional<Color> optionalColor = colorRepository.findById(id);
+        if(optionalColor.isPresent()){
+            return optionalColor.get();
         }
         throw new RuntimeException("No element by this element");
     }
@@ -30,6 +31,17 @@ public class ColorServiceImpl implements ColorService {
     @Override
     public List<Color> findAll() {
         return colorRepository.findAll();
+    }
+
+    @Override
+    public void changeStatusToDeleted(Long id) {
+        Optional<Color> optionalColor = colorRepository.findById(id);
+        if(optionalColor.isPresent()){
+            Color color = optionalColor.get();
+            color.setStatus(Status.DELETED);
+            colorRepository.save(color);
+        }
+        throw new RuntimeException("No element by this element");
     }
 
     @Override

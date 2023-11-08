@@ -24,8 +24,19 @@ public class Color {
     String color;
     @Enumerated(EnumType.STRING)
     Status status;
+
+    public Color(String color) {
+        this.color = color;
+    }
+
+    public Color(String color, Status status) {
+        this.color = color;
+        this.status = status;
+    }
+
     @PrePersist
     public void prePersist() {
         status = Status.ACTIVE;
     }
+
 }
