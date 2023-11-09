@@ -24,7 +24,6 @@ public class Color {
     String color;
     @Enumerated(EnumType.STRING)
     Status status;
-
     public Color(String color) {
         this.color = color;
     }

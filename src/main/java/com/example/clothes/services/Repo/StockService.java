@@ -1,20 +1,22 @@
-package com.example.clothes.repositories;
+package com.example.clothes.services.Repo;
 
 import com.example.clothes.entities.Clothes;
 import com.example.clothes.entities.Color;
 import com.example.clothes.entities.Size;
 import com.example.clothes.entities.Stock;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface StockRepository extends JpaRepository<Stock, Long> {
+public interface StockService {
+    List<Stock> findAll();
     List<Stock>findBySize(Size size);
     List<Stock>findByColor(Color color);
     List<Stock>findByClothes(Clothes clothes);
-    List<Stock>findByClothesAndColorAndSize(Clothes clothes, Color color, Size size);
-    double countByClothesAndColorAndSize(Clothes clothes, Color color, Size size);
+    Stock findById(Long id);
+    void save(Stock stock);
+    void save(Long size_id, Long color_id, Long clothes_id);
+    void AddToQuantity(Long id, int quantity);
 
 
 }
