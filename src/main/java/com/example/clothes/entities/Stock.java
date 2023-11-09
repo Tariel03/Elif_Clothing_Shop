@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "stock")
+@Table(name = "stock",uniqueConstraints = {@UniqueConstraint(columnNames = {"color_id", "size_id", "clothes_id"})})
 /* This class is many-to-many relationship table or class, alternatively could be called Color_size_cloth.
  * But I decided that name wouldn't be very suiting name and honestly too long
  */

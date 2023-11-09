@@ -8,6 +8,6 @@ public interface CategoryService {
     void save(String category);
     Category findById(Long id);
     List<Category> findAll();
-    Category findByCategory(String brand);
+    Category findByCategory(String category);
 
 }

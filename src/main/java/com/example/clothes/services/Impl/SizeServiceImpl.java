@@ -29,7 +29,7 @@ public class SizeServiceImpl implements SizeService {
 
     @Override
     public List<Size> findAll() {
-        return null;
+        return sizeRepository.findAll();
     }
 
     @Override

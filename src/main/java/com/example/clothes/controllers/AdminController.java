@@ -6,9 +6,11 @@ import com.example.clothes.dto.response.ClothResponse;
 import com.example.clothes.entities.Brand;
 import com.example.clothes.entities.Clothes;
 import com.example.clothes.entities.Image;
+import com.example.clothes.entities.Size;
 import com.example.clothes.enums.Status;
 import com.example.clothes.services.Impl.ClothesServiceImpl;
 import com.example.clothes.services.Impl.ImagesServiceImpl;
+import com.example.clothes.services.Impl.SizeServiceImpl;
 import com.example.clothes.services.Repo.BrandService;
 import com.example.clothes.services.Repo.ColorService;
 import com.example.clothes.services.Repo.ImageService;
@@ -35,6 +37,7 @@ public class AdminController {
     private final ColorService colorService;
     private final ClothesServiceImpl clothesService;
     private final ImagesServiceImpl imagesService;
+    private final SizeServiceImpl sizeService;
     PhotoConfig photoConfig = new PhotoConfig();
     @PostMapping("/create/clothes")
     public ResponseEntity<String> createClothes(@Valid @RequestBody ClothRequest request, BindingResult bindingResult) {
@@ -62,13 +65,24 @@ public class AdminController {
     public ResponseEntity<List<Brand>>findBrands(){
         return ResponseEntity.ok(brandService.findActiveBrands());
     }
-
+    @GetMapping("/sizes")
+    public ResponseEntity<List<Size>>findSizes(){
+        return ResponseEntity.ok(sizeService.findAll());
+    }
     @PostMapping("/create/brand")
     public ResponseEntity<String> createBrand( String brand) {
         if(brand.isBlank() || brand.isEmpty()){
             return new ResponseEntity<>("Name of the brand can't be blank or/and empty", HttpStatus.BAD_REQUEST);
         }
         brandService.save(brand);
+        return ResponseEntity.ok("Successfully created!");
+    }
+    @PostMapping("/create/size")
+    public ResponseEntity<String> createSize( String size) {
+        if(size.isBlank() || size.isEmpty()){
+            return new ResponseEntity<>("Name of the brand can't be blank or/and empty", HttpStatus.BAD_REQUEST);
+        }
+        sizeService.save(size);
         return ResponseEntity.ok("Successfully created!");
     }
     @PostMapping("/create/color")

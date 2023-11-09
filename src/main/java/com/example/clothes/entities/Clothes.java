@@ -43,6 +43,9 @@ public class Clothes {
     @JoinColumn(name = "brand_id")
     @ManyToOne
     Brand brand;
+    @JoinColumn(name = "size_id")
+    @ManyToOne
+    Size size;
 //    @JoinColumn(name = "image_id")
 //    @ManyToOne
     @OneToMany(mappedBy = "clothes", cascade = CascadeType.ALL, orphanRemoval = true)

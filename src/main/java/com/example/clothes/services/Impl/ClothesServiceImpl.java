@@ -4,6 +4,7 @@ import com.example.clothes.dto.request.ClothRequest;
 import com.example.clothes.dto.response.ClothResponse;
 import com.example.clothes.entities.Brand;
 import com.example.clothes.entities.Clothes;
+import com.example.clothes.entities.Size;
 import com.example.clothes.enums.Gender;
 import com.example.clothes.mappers.ClothesMapper;
 import com.example.clothes.repositories.CategoryRepository;
@@ -27,9 +28,14 @@ public class ClothesServiceImpl implements ClothService {
     private final CategoryService categoryService;
     private final BrandServiceImpl brandService;
     private final ClothesMapper clothesMapper;
+    private final SizeServiceImpl sizeService;
     @Override
     public List<ClothResponse> findByGender(Gender gender) {
         return clothesMapper.toListDto(clothesRepository.findByGender(gender));
+    }
+    public List<ClothResponse> findBySize(String size) {
+        Size size1 = sizeService.findBySize(size);
+        return clothesMapper.toListDto(clothesRepository.findBySize(size1));
     }
 
     @Override

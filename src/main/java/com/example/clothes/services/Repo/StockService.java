@@ -13,10 +13,13 @@ public interface StockService {
     List<Stock>findBySize(Size size);
     List<Stock>findByColor(Color color);
     List<Stock>findByClothes(Clothes clothes);
+    Stock findByClothesAndColorAndSize(Long clothes_id, Long color_id, Long size_id);
     Stock findById(Long id);
     void save(Stock stock);
     void save(Long size_id, Long color_id, Long clothes_id);
     void AddToQuantity(Long id, int quantity);
+    void SubtractFromQuantity(Long id, int quantity);
+
 
 
 }
