@@ -13,6 +13,7 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     List<Stock>findBySize(Size size);
     List<Stock>findByColor(Color color);
     List<Stock>findByClothes(Clothes clothes);
+    List<Stock>findByClothesAndColor(Clothes clothes, Color color);
     Optional<Stock> findByClothesAndColorAndSize(Clothes clothes, Color color, Size size);
 
 

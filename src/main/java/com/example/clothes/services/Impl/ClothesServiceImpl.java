@@ -56,11 +56,6 @@ public class ClothesServiceImpl implements ClothService {
     }
 
 
-//    @Override
-//    public void save(ClothDto dto) {
-//
-//    }
-
     @Override
     public Clothes findById(Long id) throws RuntimeException {
         Optional<Clothes> optionalClothes = clothesRepository.findById(id);

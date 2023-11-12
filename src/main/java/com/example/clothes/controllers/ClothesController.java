@@ -1,10 +1,7 @@
 package com.example.clothes.controllers;
 
 import com.example.clothes.dto.response.ClothResponse;
-import com.example.clothes.entities.Brand;
-import com.example.clothes.entities.Clothes;
-import com.example.clothes.entities.Color;
-import com.example.clothes.entities.Stock;
+import com.example.clothes.entities.*;
 import com.example.clothes.enums.Gender;
 import com.example.clothes.repositories.ClothesRepository;
 import com.example.clothes.services.Impl.ClothesServiceImpl;
@@ -40,7 +37,7 @@ public class ClothesController {
         return ResponseEntity.ok(clothesService.findByBrand(brand));
     }
     @GetMapping("/size")
-    ResponseEntity<List<ClothResponse>>findBySize(@RequestParam("brand") String size){
+    ResponseEntity<List<ClothResponse>>findBySize(@RequestParam("size") String size){
         return ResponseEntity.ok(clothesService.findBySize(size));
     }
 
@@ -61,9 +58,10 @@ public class ClothesController {
     ResponseEntity<List<Color>>findColorsByClothes(@PathVariable Long clothes_id){
         return ResponseEntity.ok(stockService.getByClothes(clothes_id));
     }
-
-
-
+    @GetMapping("/stock/clothes/size/{clothes_id}")
+    ResponseEntity<List<Size>>findSizesByClothes(@PathVariable Long clothes_id, @RequestParam Long color_id){
+        return ResponseEntity.ok(stockService.getByClothes(clothes_id,color_id));
+    }
 
 
 

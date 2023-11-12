@@ -106,6 +106,19 @@ public class StockServiceImpl implements StockService {
         return colorList;
 
     }
+    public List<Size>getByClothes(Long clothes_id, Long color_id){
+        Clothes clothes = clothesService.findById(clothes_id);
+        Color color = colorService.findById(color_id);
+        List<Size>sizeList = new ArrayList<>();
+        List<Stock> stockList = stockRepository.findByClothesAndColor(clothes,color);
+        for (Stock s :
+                stockList) {
+            sizeList.add(s.getSize());
+
+        }
+        return sizeList;
+
+    }
 
 
 }
