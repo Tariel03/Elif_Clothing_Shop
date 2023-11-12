@@ -19,6 +19,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClothResponse {
+    Long id;
     String name;
     @Column(columnDefinition = "TEXT")
     String description;

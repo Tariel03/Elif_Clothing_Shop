@@ -3,14 +3,10 @@ package com.example.clothes.controllers;
 import com.example.clothes.Photo.PhotoConfig;
 import com.example.clothes.dto.request.ClothRequest;
 import com.example.clothes.dto.response.ClothResponse;
-import com.example.clothes.entities.Brand;
-import com.example.clothes.entities.Clothes;
-import com.example.clothes.entities.Image;
-import com.example.clothes.entities.Size;
+import com.example.clothes.entities.*;
+import com.example.clothes.enums.OrderStatus;
 import com.example.clothes.enums.Status;
-import com.example.clothes.services.Impl.ClothesServiceImpl;
-import com.example.clothes.services.Impl.ImagesServiceImpl;
-import com.example.clothes.services.Impl.SizeServiceImpl;
+import com.example.clothes.services.Impl.*;
 import com.example.clothes.services.Repo.BrandService;
 import com.example.clothes.services.Repo.ColorService;
 import com.example.clothes.services.Repo.ImageService;
@@ -38,6 +34,8 @@ public class AdminController {
     private final ClothesServiceImpl clothesService;
     private final ImagesServiceImpl imagesService;
     private final SizeServiceImpl sizeService;
+    private  final StockServiceImpl stockService;
+    private final OrderServiceImpl orderService;
     PhotoConfig photoConfig = new PhotoConfig();
     @PostMapping("/create/clothes")
     public ResponseEntity<String> createClothes(@Valid @RequestBody ClothRequest request, BindingResult bindingResult) {
@@ -65,6 +63,8 @@ public class AdminController {
     public ResponseEntity<List<Brand>>findBrands(){
         return ResponseEntity.ok(brandService.findActiveBrands());
     }
+    @GetMapping("/colors")
+    public ResponseEntity<List<Color>>findColors(){return ResponseEntity.ok(colorService.findAll());}
     @GetMapping("/sizes")
     public ResponseEntity<List<Size>>findSizes(){
         return ResponseEntity.ok(sizeService.findAll());
@@ -114,6 +114,26 @@ public class AdminController {
         photoConfig.savePhoto(file);
 
         return ResponseEntity.ok("Success!");
+    }
+    @PostMapping("/stock/add")
+    public ResponseEntity<String>addStock(@RequestParam Long clothes_id, @RequestParam Long size_id, @RequestParam Long color_id){
+        stockService.save(size_id,color_id,clothes_id);
+        return ResponseEntity.ok("Success!");
+    }
+    @PutMapping("/stock/change/quantity/{id}")
+    public ResponseEntity<String>changeQuantity(@PathVariable Long id, @RequestParam int quantity){
+        Stock stock = stockService.findById(id);
+        stock.setQuantity(quantity);
+        stockService.save(stock);
+        return ResponseEntity.ok("Success");
+    }
+    @GetMapping("/order/all")
+    public ResponseEntity<List<Order>> findOrders(){
+        return ResponseEntity.ok(orderService.findAll());
+    }
+    @GetMapping("/order")
+    public ResponseEntity<List<Order>>findOrderByStatus(@RequestParam OrderStatus orderStatus){
+        return ResponseEntity.ok(orderService.findByOrderStatus(orderStatus));
     }
 
 

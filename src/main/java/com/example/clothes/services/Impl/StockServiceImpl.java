@@ -71,7 +71,7 @@ public class StockServiceImpl implements StockService {
     @Override
     public void save(Long size_id, Long color_id, Long clothes_id) {
         Clothes clothes = clothesService.findById(clothes_id);
-        Color color = colorService.findById(clothes_id);
+        Color color = colorService.findById(color_id);
         Size size = sizeService.findById(size_id);
         Stock stock = Stock.builder().clothes(clothes).color(color).size(size).build();
         save(stock);
@@ -119,6 +119,7 @@ public class StockServiceImpl implements StockService {
         return sizeList;
 
     }
+
 
 
 }

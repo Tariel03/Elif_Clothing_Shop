@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 public class ClothRequest {
+    Long id;
     @NotBlank
     String name;
     @NotBlank
